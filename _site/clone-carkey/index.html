@@ -27,8 +27,8 @@
       <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 
-    <link rel="stylesheet" type="text/css" href="/style.css" />
-    <link rel="alternate" type="application/rss+xml" title="j0lama - Computer engineering and hacking stuff" href="/feed.xml" />
+    <link rel="stylesheet" type="text/css" href="/blog/style.css" />
+    <link rel="alternate" type="application/rss+xml" title="j0lama - Computer engineering and hacking stuff" href="/blog/feed.xml" />
 
     <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
   </head>
@@ -37,16 +37,16 @@
     <div class="wrapper-masthead">
       <div class="container">
         <header class="masthead clearfix">
-          <a href="/" class="site-avatar"><img src="https://raw.githubusercontent.com/j0lama/blog/master/images/logo.png" /></a>
+          <a href="/blog/" class="site-avatar"><img src="https://raw.githubusercontent.com/j0lama/blog/master/images/logo.png" /></a>
 
           <div class="site-info">
-            <h1 class="site-name"><a href="/">j0lama</a></h1>
+            <h1 class="site-name"><a href="/blog/">j0lama</a></h1>
             <p class="site-description">Computer engineering and hacking stuff</p>
           </div>
 
           <nav>
-            <a href="/">Posts</a>
-            <a href="/about">About</a>
+            <a href="/blog/">Posts</a>
+            <a href="/blog/about">About</a>
           </nav>
         </header>
       </div>
@@ -62,27 +62,27 @@
 <p>With this info I decided to buy one of this TV antennas that are very cheap, only 10$ (<a href="https://es.aliexpress.com/item/FW1S-New-USB-2-0-Digital-DVB-T-SDR-DAB-FM-HDTV-TV-Tuner-Receiver-Stick/32600825233.html?spm=a2g0s.11045068.rcmd404.2.266956a4uWrjNg&amp;pvid=54eedbd9-24c7-42a3-9eed-ab60d3f9f07c&amp;gps-id=detail404&amp;scm=1007.16891.96945.0&amp;scm-url=1007.16891.96945.0&amp;scm_id=1007.16891.96945.0">R820T2 TV antenna</a>)</p>
 
 <p align="center">
-	  <img src="/images/carkey/antenna.jpg" />
+	  <img src="/blog/images/carkey/antenna.jpg" />
 </p>
 
 <p>To send the signal captured from the car key with the antenna I used one <a href="https://www.dx.com/p/uno-r3-development-board-microcontroller-mega328p-atmega16u2-compat-for-arduino-blue-black-2027231#.XAvpPnVKixu">Arduino One R3</a> and a <a href="https://www.dx.com/p/rf-transmitter-receiver-module-433mhz-wireless-link-kit-w-spring-antennas-for-arduino-2057011#.XAvpVnVKixu">433MHz Radio Frequency transmitter</a>.</p>
 <p align="center">
-	  <img src="/images/carkey/arduino.jpg" />
-	  <img src="/images/carkey/module.jpg" />
+	  <img src="/blog/images/carkey/arduino.jpg" />
+	  <img src="/blog/images/carkey/module.jpg" />
 </p>
 
 <p>I decided to install GQRX that is an open source radio software that allows us see the frequencies spectre and detect our car key frequency using our antenna.
 We can install GQRX easily with:</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">sudo </span>apt-get <span class="nb">install </span>gqrx
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">sudo </span>apt-get install gqrx
 </code></pre></div></div>
 <p align="center">
-	  <img src="/images/carkey/gqrx.jpg" />
+	  <img src="/blog/images/carkey/gqrx.jpg" />
 </p>
 
 <p>Now, with the antenna connected to the computer and GQRX running with the 433MHz frequency selected (common frequency for the car keys) and if we press any button of the car key, GQRX will capture it. In my case, the exact frecuency of my car key is 433.92MHz</p>
 <p align="center">
-	  <img src="/images/carkey/wave.png" />
+	  <img src="/blog/images/carkey/wave.png" />
 </p>
 
 <p>Once checked that the car key frequency is the correct one, we can capture the “open” and “close” message to reverse them and resend to the car with our Arduino.
@@ -100,21 +100,21 @@ To stop the capturing process press Ctrl + C.
 With the .wav file in my desktop I opened it with Audacity, a sound editing software that will allows us reverse wave captures.
 If we open the .wav file with Audacity we will see the next wave:</p>
 <p align="center">
-	  <img src="/images/carkey/auda1.png" />
+	  <img src="/blog/images/carkey/auda1.png" />
 </p>
 
 <p>In my case it was easy to appreciate that in the signal dump, there are three zones that corresponds with the periods that I have been with the key button pressed.
 If we center our attention in one of these three zones we will see the signal like this:</p>
 
 <p align="center">
-	  <img src="/images/carkey/auda2.png" />
+	  <img src="/blog/images/carkey/auda2.png" />
 </p>
 
 <p>In the previous image we can see the same pattern repeated some times. Each of this repetitions correspond to the “open” message that are sended many times when we hold the key.
 With this information we will clip one of this patterns to apply reverse engineering to it.</p>
 
 <p align="center">
-	  <img src="/images/carkey/auda3.png" />
+	  <img src="/blog/images/carkey/auda3.png" />
 </p>
 
 <p>Now we have to apply reverse engineering to this signal fragment.
@@ -123,7 +123,7 @@ If we zoom in the signal, it can be appreciate that are some parts with a big am
 <p>The last thing we have to calculate is the period of the binary simbols. This means that, if we want to send a digital 0 is translated to to an analogic 0 as a signal with small amplitude during a time T. T is what we have to calculate and we can do this easily with Audacity:</p>
 
 <p align="center">
-	  <img src="/images/carkey/auda4.png" />
+	  <img src="/blog/images/carkey/auda4.png" />
 </p>
 
 <p>In my case the period T is 0.4 ms as you can see in the previous image.</p>
@@ -132,8 +132,8 @@ If we zoom in the signal, it can be appreciate that are some parts with a big am
 
 <p>In the array, 1 means a period of big amplitudes of length T and 0 means a period of small amplitudes of, also, length T.</p>
 
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//Developed by j0lama</span>
- 
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//Developed by j0lama
+</span> 
 <span class="cp">#include &lt;SoftwareSerial.h&gt;
 </span> 
 <span class="cp">#define time 400

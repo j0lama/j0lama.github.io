@@ -5,7 +5,7 @@ permalink: /about/
 ---
 
 <p align="center">
-	  <img src="/images/profile.png">
+	  <img src="/blog/images/profile.png">
 	  <br>
 	  Jon
 </p>
