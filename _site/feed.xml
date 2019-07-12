@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/blog/" rel="alternate" type="text/html" /><updated>2019-07-12T17:47:40+02:00</updated><id>http://localhost:4000/blog/feed.xml</id><title type="html">j0lama</title><subtitle>Computer engineering and hacking stuff</subtitle><entry><title type="html">PS4ME (PS4 Memory Editor)</title><link href="http://localhost:4000/blog/ps4me/" rel="alternate" type="text/html" title="PS4ME (PS4 Memory Editor)" /><published>2017-03-25T00:00:00+01:00</published><updated>2017-03-25T00:00:00+01:00</updated><id>http://localhost:4000/blog/ps4me</id><content type="html" xml:base="http://localhost:4000/blog/ps4me/">&lt;p&gt;As I said on my &lt;a href=&quot;/ps4-rte/&quot;&gt;last post&lt;/a&gt;, my mian objective is to develop a software similar to PS3TMAPI/PS3CCAPI but for PS4.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/blog/" rel="alternate" type="text/html" /><updated>2019-07-12T18:20:19+02:00</updated><id>http://localhost:4000/blog/feed.xml</id><title type="html">j0lama</title><subtitle>Computer engineering and hacking stuff</subtitle><entry><title type="html">PS4ME (PS4 Memory Editor)</title><link href="http://localhost:4000/blog/ps4me/" rel="alternate" type="text/html" title="PS4ME (PS4 Memory Editor)" /><published>2017-03-25T00:00:00+01:00</published><updated>2017-03-25T00:00:00+01:00</updated><id>http://localhost:4000/blog/ps4me</id><content type="html" xml:base="http://localhost:4000/blog/ps4me/">&lt;p&gt;As I said on my &lt;a href=&quot;/ps4-rte/&quot;&gt;last post&lt;/a&gt;, my mian objective is to develop a software similar to PS3TMAPI/PS3CCAPI but for PS4.&lt;/p&gt;
 
 &lt;p&gt;PS4ME.dll its a shared Windows library with all teh required functions to connect with a 1.76 PS4 and read/write any process memory.&lt;/p&gt;
 
@@ -123,7 +123,7 @@ This is only a little demo and probably it will have a lot of bugs.&lt;/p&gt;
 &lt;p&gt;I decided to install GQRX that is an open source radio software that allows us see the frequencies spectre and detect our car key frequency using our antenna.
 We can install GQRX easily with:&lt;/p&gt;
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get install gqrx
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;gqrx
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p align=&quot;center&quot;&gt;
 	  &lt;img src=&quot;/blog/images/carkey/gqrx.jpg&quot; /&gt;
@@ -181,8 +181,8 @@ If we zoom in the signal, it can be appreciate that are some parts with a big am
 
 &lt;p&gt;In the array, 1 means a period of big amplitudes of length T and 0 means a period of small amplitudes of, also, length T.&lt;/p&gt;
 
-&lt;div class=&quot;language-cpp highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;//Developed by j0lama
-&lt;/span&gt; 
+&lt;div class=&quot;language-cpp highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;//Developed by j0lama&lt;/span&gt;
+ 
 &lt;span class=&quot;cp&quot;&gt;#include &amp;lt;SoftwareSerial.h&amp;gt;
 &lt;/span&gt; 
 &lt;span class=&quot;cp&quot;&gt;#define time 400

@@ -74,7 +74,7 @@
 <p>I decided to install GQRX that is an open source radio software that allows us see the frequencies spectre and detect our car key frequency using our antenna.
 We can install GQRX easily with:</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">sudo </span>apt-get install gqrx
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">sudo </span>apt-get <span class="nb">install </span>gqrx
 </code></pre></div></div>
 <p align="center">
 	  <img src="/blog/images/carkey/gqrx.jpg" />
@@ -132,8 +132,8 @@ If we zoom in the signal, it can be appreciate that are some parts with a big am
 
 <p>In the array, 1 means a period of big amplitudes of length T and 0 means a period of small amplitudes of, also, length T.</p>
 
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//Developed by j0lama
-</span> 
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//Developed by j0lama</span>
+ 
 <span class="cp">#include &lt;SoftwareSerial.h&gt;
 </span> 
 <span class="cp">#define time 400
