@@ -8,13 +8,13 @@ Recently, a friend told me that he had bought a USB antenna to see the TV on the
 With this info I decided to buy one of this TV antennas that are very cheap, only 10$ ([R820T2 TV antenna](https://es.aliexpress.com/item/FW1S-New-USB-2-0-Digital-DVB-T-SDR-DAB-FM-HDTV-TV-Tuner-Receiver-Stick/32600825233.html?spm=a2g0s.11045068.rcmd404.2.266956a4uWrjNg&pvid=54eedbd9-24c7-42a3-9eed-ab60d3f9f07c&gps-id=detail404&scm=1007.16891.96945.0&scm-url=1007.16891.96945.0&scm_id=1007.16891.96945.0))
 
 <p align="center">
-	  <img src="/blog/images/carkey/antenna.jpg">
+	  <img src="/images/carkey/antenna.jpg">
 </p>
 
 To send the signal captured from the car key with the antenna I used one [Arduino One R3](https://www.dx.com/p/uno-r3-development-board-microcontroller-mega328p-atmega16u2-compat-for-arduino-blue-black-2027231#.XAvpPnVKixu) and a [433MHz Radio Frequency transmitter](https://www.dx.com/p/rf-transmitter-receiver-module-433mhz-wireless-link-kit-w-spring-antennas-for-arduino-2057011#.XAvpVnVKixu).
 <p align="center">
-	  <img src="/blog/images/carkey/arduino.jpg">
-	  <img src="/blog/images/carkey/module.jpg">
+	  <img src="/images/carkey/arduino.jpg">
+	  <img src="/images/carkey/module.jpg">
 </p>
 
 I decided to install GQRX that is an open source radio software that allows us see the frequencies spectre and detect our car key frequency using our antenna.
@@ -24,12 +24,12 @@ We can install GQRX easily with:
 $ sudo apt-get install gqrx
 ```
 <p align="center">
-	  <img src="/blog/images/carkey/gqrx.jpg">
+	  <img src="/images/carkey/gqrx.jpg">
 </p>
 
 Now, with the antenna connected to the computer and GQRX running with the 433MHz frequency selected (common frequency for the car keys) and if we press any button of the car key, GQRX will capture it. In my case, the exact frecuency of my car key is 433.92MHz
 <p align="center">
-	  <img src="/blog/images/carkey/wave.png">
+	  <img src="/images/carkey/wave.png">
 </p>
 
 Once checked that the car key frequency is the correct one, we can capture the "open" and "close" message to reverse them and resend to the car with our Arduino.
@@ -48,21 +48,21 @@ To stop the capturing process press Ctrl + C.
 With the .wav file in my desktop I opened it with Audacity, a sound editing software that will allows us reverse wave captures.
 If we open the .wav file with Audacity we will see the next wave:
 <p align="center">
-	  <img src="/blog/images/carkey/auda1.png">
+	  <img src="/images/carkey/auda1.png">
 </p>
 
 In my case it was easy to appreciate that in the signal dump, there are three zones that corresponds with the periods that I have been with the key button pressed.
 If we center our attention in one of these three zones we will see the signal like this:
 
 <p align="center">
-	  <img src="/blog/images/carkey/auda2.png">
+	  <img src="/images/carkey/auda2.png">
 </p>
 
 In the previous image we can see the same pattern repeated some times. Each of this repetitions correspond to the "open" message that are sended many times when we hold the key.
 With this information we will clip one of this patterns to apply reverse engineering to it.
 
 <p align="center">
-	  <img src="/blog/images/carkey/auda3.png">
+	  <img src="/images/carkey/auda3.png">
 </p>
 
 Now we have to apply reverse engineering to this signal fragment.
@@ -71,7 +71,7 @@ If we zoom in the signal, it can be appreciate that are some parts with a big am
 The last thing we have to calculate is the period of the binary simbols. This means that, if we want to send a digital 0 is translated to to an analogic 0 as a signal with small amplitude during a time T. T is what we have to calculate and we can do this easily with Audacity:
 
 <p align="center">
-	  <img src="/blog/images/carkey/auda4.png">
+	  <img src="/images/carkey/auda4.png">
 </p>
 
 In my case the period T is 0.4 ms as you can see in the previous image.
@@ -134,7 +134,7 @@ I tested this method on Dacia Sandero with this result:
 
 <p align="center">
 	<video width="800" height="500" controls>
-	  <source type="video/mp4" src="https://raw.githubusercontent.com/j0lama/blog/master/images/carkey/car.mp4"></source>
+	  <source type="video/mp4" src="/images/carkey/car.mp4"></source>
 	</video>
 </p>
 
