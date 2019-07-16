@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2019-07-12T18:25:52+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">j0lama</title><subtitle>Computer engineering and hacking stuff</subtitle><entry><title type="html">PS4ME (PS4 Memory Editor)</title><link href="http://localhost:4000/ps4me/" rel="alternate" type="text/html" title="PS4ME (PS4 Memory Editor)" /><published>2017-03-25T00:00:00+01:00</published><updated>2017-03-25T00:00:00+01:00</updated><id>http://localhost:4000/ps4me</id><content type="html" xml:base="http://localhost:4000/ps4me/">&lt;p&gt;As I said on my &lt;a href=&quot;/ps4-rte/&quot;&gt;last post&lt;/a&gt;, my mian objective is to develop a software similar to PS3TMAPI/PS3CCAPI but for PS4.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2019-07-16T16:10:23+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">j0lama</title><subtitle>Computer engineering and hacking stuff</subtitle><entry><title type="html">PS4ME (PS4 Memory Editor)</title><link href="http://localhost:4000/ps4me/" rel="alternate" type="text/html" title="PS4ME (PS4 Memory Editor)" /><published>2017-03-25T00:00:00+01:00</published><updated>2017-03-25T00:00:00+01:00</updated><id>http://localhost:4000/ps4me</id><content type="html" xml:base="http://localhost:4000/ps4me/">&lt;p&gt;As I said on my &lt;a href=&quot;/ps4-rte/&quot;&gt;last post&lt;/a&gt;, my main objective is to develop a software similar to PS3TMAPI/PS3CCAPI but for PS4.&lt;/p&gt;
 
-&lt;p&gt;PS4ME.dll its a shared Windows library with all teh required functions to connect with a 1.76 PS4 and read/write any process memory.&lt;/p&gt;
+&lt;p&gt;PS4ME.dll is a shared Windows library with all the required functions to connect with a 1.76 PS4 and read/write any process memory.&lt;/p&gt;
 
 &lt;p&gt;Nowadays PS4ME has the following functions:&lt;/p&gt;
 
@@ -42,11 +42,11 @@
 
 &lt;p&gt;It’s a simple GUI for interact with the PS4 using a HEX editor to read and modify values. Also it has support to get the running processes and to show the game memory in real time.&lt;/p&gt;
 &lt;p align=&quot;center&quot;&gt;
-	  &lt;img src=&quot;/blog/images/ps4me/tool.png&quot; /&gt;
+	  &lt;img src=&quot;/images/ps4me/tool.png&quot; /&gt;
 &lt;/p&gt;
 
-&lt;p&gt;PS4METool and PS4ME.dll with the payload are availables to download &lt;a href=&quot;https://www.mediafire.com/file/lk0crle06mismmn/PS4METool.rar/file&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;</content><author><name></name></author><summary type="html">As I said on my last post, my mian objective is to develop a software similar to PS3TMAPI/PS3CCAPI but for PS4.</summary></entry><entry><title type="html">Real Time Memory Editor (Retail PS4)</title><link href="http://localhost:4000/ps4-rte/" rel="alternate" type="text/html" title="Real Time Memory Editor (Retail PS4)" /><published>2017-03-13T00:00:00+01:00</published><updated>2017-03-13T00:00:00+01:00</updated><id>http://localhost:4000/ps4-rte</id><content type="html" xml:base="http://localhost:4000/ps4-rte/">&lt;p&gt;My main objective in PS4 was to develop a software that allows me to edit and modify the game meory to create game modifications and cheats.
-This software it’s very similar to those used on PS3 (ps3tmapi for debug consoles and ccapi for retail consoles) and is based on the &lt;em&gt;ptrace&lt;/em&gt; syscall that in the PS4 corresponds with the syscall number 26.&lt;/p&gt;
+&lt;p&gt;PS4METool and PS4ME.dll with the payload are availables to download &lt;a href=&quot;https://www.mediafire.com/file/lk0crle06mismmn/PS4METool.rar/file&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;</content><author><name></name></author><summary type="html">As I said on my last post, my main objective is to develop a software similar to PS3TMAPI/PS3CCAPI but for PS4.</summary></entry><entry><title type="html">Real Time Memory Editor (Retail PS4)</title><link href="http://localhost:4000/ps4-rte/" rel="alternate" type="text/html" title="Real Time Memory Editor (Retail PS4)" /><published>2017-03-13T00:00:00+01:00</published><updated>2017-03-13T00:00:00+01:00</updated><id>http://localhost:4000/ps4-rte</id><content type="html" xml:base="http://localhost:4000/ps4-rte/">&lt;p&gt;My main objective in PS4 was to develop a software that allows me to edit and modify the game meory to create game modifications and cheats.
+This software is very similar to those used on PS3 (ps3tmapi for debug consoles and ccapi for retail consoles) and is based on the &lt;em&gt;ptrace&lt;/em&gt; syscall that in the PS4 corresponds with the syscall number 26.&lt;/p&gt;
 
 &lt;p&gt;This software runs under the WebKit exploit released by cTurt and allow to execute unsigned code with privileges. This exploit also enables write protection and disable the ASLR (Address Space Layout Randomization) used to randomize the base address each time a process is created. With ASLR dissabled all games start at 0x400000 (Thansk to ZiL0G80).&lt;/p&gt;
 
@@ -106,18 +106,18 @@ Special Granade Ammo: 0x1f0c448
 This is only a little demo and probably it will have a lot of bugs.&lt;/p&gt;
 
 &lt;h2 id=&quot;download&quot;&gt;Download&lt;/h2&gt;
-&lt;p&gt;The source code has been released on my GitHUb account: &lt;a href=&quot;https://github.com/j0lama/PS4-Real-Time-Memory-Editor&quot;&gt;Download&lt;/a&gt;.&lt;/p&gt;</content><author><name></name></author><summary type="html">My main objective in PS4 was to develop a software that allows me to edit and modify the game meory to create game modifications and cheats. This software it’s very similar to those used on PS3 (ps3tmapi for debug consoles and ccapi for retail consoles) and is based on the ptrace syscall that in the PS4 corresponds with the syscall number 26.</summary></entry><entry><title type="html">How to clone a car key</title><link href="http://localhost:4000/clone-carkey/" rel="alternate" type="text/html" title="How to clone a car key" /><published>2017-03-01T00:00:00+01:00</published><updated>2017-03-01T00:00:00+01:00</updated><id>http://localhost:4000/clone-carkey</id><content type="html" xml:base="http://localhost:4000/clone-carkey/">&lt;p&gt;Recently, a friend told me that he had bought a USB antenna to see the TV on the computer (R820T2) and that this antenna could capture traffic in a big frequency range, not only TV range. This antenna could capture frequencies of garage and car keys although it was designed to TV frequencies.&lt;/p&gt;
+&lt;p&gt;The source code has been released on my GitHUb account: &lt;a href=&quot;https://github.com/j0lama/PS4-Real-Time-Memory-Editor&quot;&gt;Download&lt;/a&gt;.&lt;/p&gt;</content><author><name></name></author><summary type="html">My main objective in PS4 was to develop a software that allows me to edit and modify the game meory to create game modifications and cheats. This software is very similar to those used on PS3 (ps3tmapi for debug consoles and ccapi for retail consoles) and is based on the ptrace syscall that in the PS4 corresponds with the syscall number 26.</summary></entry><entry><title type="html">How to clone a car key</title><link href="http://localhost:4000/clone-carkey/" rel="alternate" type="text/html" title="How to clone a car key" /><published>2017-03-01T00:00:00+01:00</published><updated>2017-03-01T00:00:00+01:00</updated><id>http://localhost:4000/clone-carkey</id><content type="html" xml:base="http://localhost:4000/clone-carkey/">&lt;p&gt;Recently, a friend told me that he had bought a USB antenna to see the TV on the computer (R820T2) and that this antenna could capture traffic in a big frequency range, not only TV range. This antenna could capture frequencies of garage and car keys although it was designed to TV frequencies.&lt;/p&gt;
 
 &lt;p&gt;With this info I decided to buy one of this TV antennas that are very cheap, only 10$ (&lt;a href=&quot;https://es.aliexpress.com/item/FW1S-New-USB-2-0-Digital-DVB-T-SDR-DAB-FM-HDTV-TV-Tuner-Receiver-Stick/32600825233.html?spm=a2g0s.11045068.rcmd404.2.266956a4uWrjNg&amp;amp;pvid=54eedbd9-24c7-42a3-9eed-ab60d3f9f07c&amp;amp;gps-id=detail404&amp;amp;scm=1007.16891.96945.0&amp;amp;scm-url=1007.16891.96945.0&amp;amp;scm_id=1007.16891.96945.0&quot;&gt;R820T2 TV antenna&lt;/a&gt;)&lt;/p&gt;
 
 &lt;p align=&quot;center&quot;&gt;
-	  &lt;img src=&quot;/blog/images/carkey/antenna.jpg&quot; /&gt;
+	  &lt;img src=&quot;/images/carkey/antenna.jpg&quot; /&gt;
 &lt;/p&gt;
 
 &lt;p&gt;To send the signal captured from the car key with the antenna I used one &lt;a href=&quot;https://www.dx.com/p/uno-r3-development-board-microcontroller-mega328p-atmega16u2-compat-for-arduino-blue-black-2027231#.XAvpPnVKixu&quot;&gt;Arduino One R3&lt;/a&gt; and a &lt;a href=&quot;https://www.dx.com/p/rf-transmitter-receiver-module-433mhz-wireless-link-kit-w-spring-antennas-for-arduino-2057011#.XAvpVnVKixu&quot;&gt;433MHz Radio Frequency transmitter&lt;/a&gt;.&lt;/p&gt;
 &lt;p align=&quot;center&quot;&gt;
-	  &lt;img src=&quot;/blog/images/carkey/arduino.jpg&quot; /&gt;
-	  &lt;img src=&quot;/blog/images/carkey/module.jpg&quot; /&gt;
+	  &lt;img src=&quot;/images/carkey/arduino.jpg&quot; /&gt;
+	  &lt;img src=&quot;/images/carkey/module.jpg&quot; /&gt;
 &lt;/p&gt;
 
 &lt;p&gt;I decided to install GQRX that is an open source radio software that allows us see the frequencies spectre and detect our car key frequency using our antenna.
@@ -126,12 +126,12 @@ We can install GQRX easily with:&lt;/p&gt;
 &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;gqrx
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p align=&quot;center&quot;&gt;
-	  &lt;img src=&quot;/blog/images/carkey/gqrx.jpg&quot; /&gt;
+	  &lt;img src=&quot;/images/carkey/gqrx.jpg&quot; /&gt;
 &lt;/p&gt;
 
 &lt;p&gt;Now, with the antenna connected to the computer and GQRX running with the 433MHz frequency selected (common frequency for the car keys) and if we press any button of the car key, GQRX will capture it. In my case, the exact frecuency of my car key is 433.92MHz&lt;/p&gt;
 &lt;p align=&quot;center&quot;&gt;
-	  &lt;img src=&quot;/blog/images/carkey/wave.png&quot; /&gt;
+	  &lt;img src=&quot;/images/carkey/wave.png&quot; /&gt;
 &lt;/p&gt;
 
 &lt;p&gt;Once checked that the car key frequency is the correct one, we can capture the “open” and “close” message to reverse them and resend to the car with our Arduino.
@@ -149,21 +149,21 @@ To stop the capturing process press Ctrl + C.
 With the .wav file in my desktop I opened it with Audacity, a sound editing software that will allows us reverse wave captures.
 If we open the .wav file with Audacity we will see the next wave:&lt;/p&gt;
 &lt;p align=&quot;center&quot;&gt;
-	  &lt;img src=&quot;/blog/images/carkey/auda1.png&quot; /&gt;
+	  &lt;img src=&quot;/images/carkey/auda1.png&quot; /&gt;
 &lt;/p&gt;
 
 &lt;p&gt;In my case it was easy to appreciate that in the signal dump, there are three zones that corresponds with the periods that I have been with the key button pressed.
 If we center our attention in one of these three zones we will see the signal like this:&lt;/p&gt;
 
 &lt;p align=&quot;center&quot;&gt;
-	  &lt;img src=&quot;/blog/images/carkey/auda2.png&quot; /&gt;
+	  &lt;img src=&quot;/images/carkey/auda2.png&quot; /&gt;
 &lt;/p&gt;
 
 &lt;p&gt;In the previous image we can see the same pattern repeated some times. Each of this repetitions correspond to the “open” message that are sended many times when we hold the key.
 With this information we will clip one of this patterns to apply reverse engineering to it.&lt;/p&gt;
 
 &lt;p align=&quot;center&quot;&gt;
-	  &lt;img src=&quot;/blog/images/carkey/auda3.png&quot; /&gt;
+	  &lt;img src=&quot;/images/carkey/auda3.png&quot; /&gt;
 &lt;/p&gt;
 
 &lt;p&gt;Now we have to apply reverse engineering to this signal fragment.
@@ -172,7 +172,7 @@ If we zoom in the signal, it can be appreciate that are some parts with a big am
 &lt;p&gt;The last thing we have to calculate is the period of the binary simbols. This means that, if we want to send a digital 0 is translated to to an analogic 0 as a signal with small amplitude during a time T. T is what we have to calculate and we can do this easily with Audacity:&lt;/p&gt;
 
 &lt;p align=&quot;center&quot;&gt;
-	  &lt;img src=&quot;/blog/images/carkey/auda4.png&quot; /&gt;
+	  &lt;img src=&quot;/images/carkey/auda4.png&quot; /&gt;
 &lt;/p&gt;
 
 &lt;p&gt;In my case the period T is 0.4 ms as you can see in the previous image.&lt;/p&gt;
@@ -236,7 +236,7 @@ If we zoom in the signal, it can be appreciate that are some parts with a big am
 
 &lt;p align=&quot;center&quot;&gt;
 	&lt;video width=&quot;800&quot; height=&quot;500&quot; controls=&quot;&quot;&gt;
-	  &lt;source type=&quot;video/mp4&quot; src=&quot;https://raw.githubusercontent.com/j0lama/blog/master/images/carkey/car.mp4&quot; /&gt;&amp;lt;/source&amp;gt;
+	  &lt;source type=&quot;video/mp4&quot; src=&quot;/images/carkey/car.mp4&quot; /&gt;&amp;lt;/source&amp;gt;
 	&lt;/video&gt;
 &lt;/p&gt;
 
@@ -280,4 +280,12 @@ If we zoom in the signal, it can be appreciate that are some parts with a big am
 &lt;p&gt;Thanks to s0cKrate5 for the TouchPAD support.&lt;/p&gt;
 
 &lt;h2 id=&quot;download&quot;&gt;Download&lt;/h2&gt;
-&lt;p&gt;The source code has been released on my GitHUb account: &lt;a href=&quot;https://github.com/j0lama/DS4Lib&quot;&gt;Download&lt;/a&gt;.&lt;/p&gt;</content><author><name></name></author><summary type="html">DS4Lib is a C written library that allows you controll a DualShock 4 (PS4 controller) from the computer. This library is open source and has been designed to be used in any Linux computer through the USB port.</summary></entry></feed>
+&lt;p&gt;The source code has been released on my GitHUb account: &lt;a href=&quot;https://github.com/j0lama/DS4Lib&quot;&gt;Download&lt;/a&gt;.&lt;/p&gt;</content><author><name></name></author><summary type="html">DS4Lib is a C written library that allows you controll a DualShock 4 (PS4 controller) from the computer. This library is open source and has been designed to be used in any Linux computer through the USB port.</summary></entry><entry><title type="html">PS4 PUP Extractor</title><link href="http://localhost:4000/ps4-pup-extractor/" rel="alternate" type="text/html" title="PS4 PUP Extractor" /><published>2016-07-03T00:00:00+02:00</published><updated>2016-07-03T00:00:00+02:00</updated><id>http://localhost:4000/ps4-pup-extractor</id><content type="html" xml:base="http://localhost:4000/ps4-pup-extractor/">&lt;p&gt;This tools allows you extract data and infromation from the PS4 PUP files (PS4UPDAT.PUP).
+Also it shows file information with a list of the files that compose the PUP file. This tool includes an option to extract all the subfiles with information about them such as the offset and size.&lt;/p&gt;
+
+&lt;p&gt;PS4 PUP Extractor:&lt;/p&gt;
+&lt;p align=&quot;center&quot;&gt;
+      &lt;img src=&quot;/images/ps4-pup-extractor/image.png&quot; /&gt;
+&lt;/p&gt;
+
+&lt;p&gt;The download is available in this link: &lt;a href=&quot;http://www.mediafire.com/file/daw1d5iaap03yhe/PS4+PUP+Extractor.exe&quot;&gt;Download&lt;/a&gt;.&lt;/p&gt;</content><author><name></name></author><summary type="html">This tools allows you extract data and infromation from the PS4 PUP files (PS4UPDAT.PUP). Also it shows file information with a list of the files that compose the PUP file. This tool includes an option to extract all the subfiles with information about them such as the offset and size.</summary></entry></feed>
