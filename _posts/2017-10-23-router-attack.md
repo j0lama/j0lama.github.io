@@ -260,6 +260,7 @@ The binary was compiled for MIPS architecture and I only needed to find where th
 
 #### Conclusions
 
-I hope you have enjoy reading this post as much I did writing it and over all learning something new.
+I hope you learned something new and over all enjoyed reading this post as much I did writing it.
+
 If you want more post like this one make it me know thorugh Twitter or buying me a [Ko-Fi](https://ko-fi.com/jolama)
 
