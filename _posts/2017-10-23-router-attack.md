@@ -14,7 +14,7 @@ The devices where the research has been made are the MitraStar DSL-100HN-T1 ("*t
 
 *The new* with a firmware version 1.00(VNJ0)b1:
 <p align="center">
-      <img src="/images/router-attack/new.jpg">
+      <img src="/images/router-attack/new.jpeg">
 </p>
 
 These two vulnerabilities can be considered as only one that elevate privileges remotely on the router avoiding the preseted shell.
