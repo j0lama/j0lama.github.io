@@ -1,6 +1,6 @@
 ---
 layout: post
-title: PS4 PUP Extractor
+title: Cracking Sublime Text 3
 ---
 
 Sublime Text is a famous multi-platform free text editor but if you want to get full support and updates you have to pay 70$ license. This is why I decided to make this tutorial where I explain how to crack this useful tool.
