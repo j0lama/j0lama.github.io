@@ -22,12 +22,12 @@ With the error message in mind, it can be searched as string in Hooper string li
       <img src="/images/crack-subl/2.png">
 </p>
 
-With the error message pointer, it will be necessary to see in which parts of the code, this string is used and to do it, Hooper allows us see the cross references as IDA Pro do:
+With the error message pointer, it will be necessary to see in which parts of the code this string is used and to do it, Hooper allows us to see the cross references as IDA Pro does:
 <p align="center">
       <img src="/images/crack-subl/3.png">
 </p>
 
-As can be noticed in the image, the error message is used in the address 0x42F1F4. This address corresponds with a *mov* instruction in a code that is accessed from other address with a jump:
+As it can be noticed in the image, the error message is used in the address 0x42F1F4. This address corresponds with a *mov* instruction in a code that is accessed from other address with a jump:
 <p align="center">
       <img src="/images/crack-subl/4.png">
 </p>
@@ -46,7 +46,7 @@ If we analyze the function we can see that the *eax* register is compared with t
 
 So, if we replace 0x1 in the comparison with the invalid license code then the result will be true if the license is invalid. The code for the invalid license is 0x2 and we just have to replace 0x1 by 0x2 at 0x42F0EF using *radare2*.
 
-After open Sublime with radare2, we move the poiter to the 0x42F0EF to change the value. To check if we are in the correct instruction I use the command *pd 5* to disassembly 5 instructions:
+After opening Sublime with radare2, we move the poiter to the 0x42F0EF to change the value. To check if we are in the correct instruction I use the command *pd 5* to disassembly 5 instructions:
 <p align="center">
       <img src="/images/crack-subl/7.png">
 </p>
@@ -67,5 +67,5 @@ License checking bypassed successfully!
 
 I hope you learned something new and over all enjoyed reading this post as much I did writing it.
 
-If you want more post like this one make it me know thorugh Twitter or buying me a [Ko-Fi](https://ko-fi.com/jolama)
+If you want more post like this one make me know it thorugh Twitter or buying me a [Ko-Fi](https://ko-fi.com/jolama)
 
