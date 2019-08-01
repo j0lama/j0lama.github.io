@@ -24,6 +24,7 @@ One of my hobbies is to develop all kind of projects related to security, OS, ne
 - [CVE-2017-16522](https://nvd.nist.gov/vuln/detail/CVE-2017-16522)
 - [CVE-2017-16523](https://nvd.nist.gov/vuln/detail/CVE-2017-16523)
 - [CVE-2019-14267](https://nvd.nist.gov/vuln/detail/CVE-2019-14267)
+- [CVE-2019-14320](https://nvd.nist.gov/vuln/detail/CVE-2019-14320)
 
 ### Programing Languages
 
