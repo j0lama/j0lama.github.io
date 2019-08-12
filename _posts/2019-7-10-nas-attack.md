@@ -3,35 +3,47 @@ layout: post
 title: Hacking devices I - CH3ENAS V1
 ---
 
-This is the first post of a serie called Hacking devices in which I will try hack different devices and get root privileges with the easiest possible way.
+This is the first post of a serie called *Hacking devices* in which I will try to hack different devices and get root privileges with the easiest possible way.
 
-The target of this post is a NAS. As Wikipedia defines, Network-attached storage (NAS) is a file-level computer data storage server connected to a computer network providing data access to a heterogeneous group of clients. The NAS that I will use as target is the [Conceptronic CH3ENAS V1](https://www.conceptronic.net/download_list.php?stype=3&productid=222).
+The target of this post is a NAS. As Wikipedia defines it, a Network-attached storage (NAS) is a file-level computer data storage server connected to a computer network providing data access to a heterogeneous group of clients. The NAS that I will use as target is the [Conceptronic CH3ENAS V1](https://www.conceptronic.net/download_list.php?stype=3&productid=222).
 
 <p align="center">
       <img src="/images/nas-attack/nas.jpg">
 </p>
 
-The objective of this post is to get full access to the NAS and modify the flash storage.
+The aim of this post is to get full access to the NAS and modify the flash storage.
 
 #### Identify open ports
 
-The first thing that you should do when you are trying to get access to a unknown device is scan the ports. A simple way to obtain the NAS IP is with the Network Map utility that some routers have that shows you a map with all the IPs assigned in your local network.
+The first thing that you should do when you are trying to get access to an unknown device is scan the ports. A simple way to obtain the NAS IP is with the Network Map utility that some routers have that shows a map with all the IPs assigned in your local network.
 ```bash
 nmap -F <device IP>
 ```
 
 Obtaining the following output:
 ```bash
+$ nmap -F 192.168.1.63
 
+Starting Nmap 7.60 ( https://nmap.org ) at 2019-08-12 12:21 CEST
+Nmap scan report for 192.168.1.63
+Host is up (1.0s latency).
+Not shown: 96 closed ports
+PORT    STATE SERVICE
+22/tcp  open  ssh
+80/tcp  open  http
+139/tcp open  netbios-ssn
+445/tcp open  microsoft-ds
+
+Nmap done: 1 IP address (1 host up) scanned in 6.23 seconds
 ```
 
-As can be appreciated in the nmap output, it has a SHH server running. Looking for some passwords in the manual and forums, I found that the default user and pasword for the web service are admin:admin so could be a valid user and password for the SHH service.
+As can be appreciated in the *nmap* output, it has a *SHH* server running. Looking for some passwords in the manual and forums, I found that the default user and pasword for the web service are *admin:admin* so could be a valid user and password for the *SHH service*.
 
-As I suppossed, admin:admin are a valid user and password for SSH and also the admin user has root access.
+As I suppossed, *admin:admin* are a valid user and password for *SSH* and also the admin user has root access.
 
 #### Looking for interesting functions
 
-The first thing that I tried was to deploy a cross-compiler to compile utilities remotely and run them on the NAS Server but unfortunately didn't work and everything compiled with the cross compiler produced a Segmentation Fault.
+The first thing I tried was deploying a *cross-compiler* to compile utilities remotely and run them on the NAS Server but unfortunately it didn't work and everything compiled with the *cross-compiler* produced a *Segmentation Fault*.
 
 The CPU information can be obtained with the following command:
 ```bash
@@ -166,7 +178,7 @@ PID   USER     COMMAND
  5595 root     ps ax 
 ```
 
-As can de appreciated in the process list, there is a process with PID 908 running that is the web server and takes all the web resources from the /var/www directory. This directory is a good entry point to explore how the web application interacts with the system.
+As can de appreciated in the process list, there is a process with PID 908 running that is the web server and takes all the web resources from the */var/www* directory. This directory is a good entry point to explore how the web application interacts with the system.
 
 The web application has the following resources:
 ```bash
@@ -188,14 +200,14 @@ home.js               ser_itunes.htm        xml.js
 iTunes_server         ser_nfs.htm
 ```
 
-In the resource list there are some interesting folder such as cgi-bin with the CGI and binary files executed by the web application. Also there is a log folder which contains all the logs showed by the web application in the Log window.
+In the resource list there are some interesting folders such as *cgi-bin* with the CGI and binary files executed by the web application. Also there is a log folder which contains all the logs showed by the web application in the Log window.
 
 #### Interacting with the system
 
-The best way to learn more about the system is exploring the process list and the /dev/ and /proc/ folders.
+The best way to learn more about the system is exploring the process list and the */dev/** and */proc/** folders.
 
-In the process list there is a process call */bin/buttons_daemon* with PID 726 that correspons with the way that the system has to capture all the external button interactions. Due to the absence of the strings binary (binutils)
- a good aproximation is to cat the binary obtaining the following result:
+In the process list there is a process called */bin/buttons_daemon* with PID 726 that correspons to the way that the system has to capture all the external button interactions. Due to the absence of the *strings* binary (binutils)
+ a good aproximation is to *cat* the binary obtaining the following result:
 ```bash
 ~ # cat /bin/buttons_daemon 
 
@@ -253,7 +265,7 @@ echo "sys_led clear" > /proc/mp_leds
 echo "error_led set" > /proc/mp_leds
 echo "power_off" > /proc/mp_led
 ```
- The previous first two commands correspond with the LED light status and allow us to turn off the red and blue light with the words *clear* and *set*. The last command powers off the system.
+ The previous first two commands correspond to the LED light status and allows us to turn off the red and blue light with the words *clear* and *set*. The last command powers off the system.
 
  Inspecting the */proc* folder, we can find some interesting files such as:
 
@@ -262,7 +274,7 @@ echo "power_off" > /proc/mp_led
  - *meminfo*: Contains system memory information
  - *mp_fan_speed*: Fan speed with values between 0 and 10000.
 
-One of the most interesting files is the *mtd*. MTD or Memory Technology Devices are NAND/NOR-based flash memory chips used for storing non-volatile data like boot images and configurations. The *mtd* file offers a interface to obtain how the boot sector, OS sector, configuration sector, etc are in the Flash memory. The NAS server contains the following information:
+One of the most interesting files is the *mtd*. MTD or Memory Technology Devices are NAND/NOR-based flash memory chips used for storing non-volatile data like boot images and configurations. The *mtd* file offers an interface to obtain how the boot sector, OS sector, configuration sector, etc are in the Flash memory. The NAS server contains the following information:
 ```bash
 / # cat /proc/mtd
 dev:    size   erasesize  name
@@ -274,23 +286,23 @@ mtd4: 00050000 00010000 "Config"
 mtd5: 00010000 00002000 "ENV"
 ```
 
-All this sectos can be accessed in the */dev* folder, through the files listed in the first word of each line (mtd0, mtd1, mtd2, mtd3, mtd4 and mtd5).
+All these sectors can be accessed in the */dev* folder, through the files listed in the first word of each line (mtd0, mtd1, mtd2, mtd3, mtd4 and mtd5).
 
 Now to dump all this sectors we just have to dump them using *cat*. A easy way to get files from the NAS server is using the USB port that is accessed through the folder created in the */home* directory when a USB storage device is connected.
 
 With all sectors dumped in my computer it's time to analyze them.
 
-The interesting files are those that corresponds with file systems because is there where all the applications reside.
-There are a lot of way to modify a file systems such as the Bootfs or Rootfs sectors now dumped in files. The most obvious one is extract the file system, mount it in a folder, modify some files and compress the file system again in a flash image.
+The interesting files are those that corresponds to file systems because is there where all the applications reside.
+There are a lot of ways to modify a file systems such as the *Bootfs* or *Rootfs* sectors now dumped in files. The most obvious one is extract the file system, mount it in a folder, modify some files and compress the file system again in a flash image.
 
-But I just want to modify a imagen used in the web application to proof that I am able to modify permanently the flash rom.
+But I just want to modify an imagen used in the web application to proof that I am able to modify permanently the flash rom.
 
-For that, I wrote this simple Python script that find a file inside another file and replace it with a different one of the same size.
+For that, I wrote this simple Python script that finds a file inside another file and replaces it with a different one of the same size.
 ```python
 
 ```
 
-With the file system image modified with a new image now its time to overwrite the flash and to do this the system give us a simple tool call *flashcp*:
+With the file system image modified with a new image now is time to overwrite the flash. To do this the system gives us a simple tool call *flashcp*:
 ```bash
 ~ # flashcp 
 
