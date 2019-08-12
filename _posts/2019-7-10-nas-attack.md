@@ -299,7 +299,27 @@ But I just want to modify an imagen used in the web application to proof that I 
 
 For that, I wrote this simple Python script that finds a file inside another file and replaces it with a different one of the same size.
 ```python
+import sys
 
+if len(sys.argv) != 5:
+  print('USE: python replacer.py <original> <modification> <source_file> <dest_file>')
+  sys.exit()
+
+with open(sys.argv[1], 'rb') as original, open(sys.argv[2], 'rb') as mod, open(sys.argv[3], 'rb') as source:
+  oriDump = original.read()
+  modDump = mod.read()
+  srcDump = source.read()
+
+if(len(oriDump) != len(modDump)):
+  print("WARNING: Original file and modificated file have different sizes")
+
+offset = srcDump.find(oriDump)
+print('Found coincidence at 0x%x' % offset)
+
+with open(sys.argv[4], 'wb') as dest:
+  dest.write(srcDump[:offset] + modDump + srcDump[offset + len(oriDump):])
+
+print('File created')
 ```
 
 With the file system image modified with a new image now is time to overwrite the flash. To do this the system gives us a simple tool call *flashcp*:
