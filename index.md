@@ -7,8 +7,4 @@ profile:
 published: true
 ---
 
-[Gradfolio](https://github.com/jitinnair1/gradfolio){:target="_blank"} is a responsive, dark-mode ready Jekyll theme designed keeping academia in mind. The easiest way to install the theme is to fork it using GitHub. Check the README file for [instructions](https://github.com/jitinnair1/gradfolio#installation){:target="_blank"}.
-
-If you want to use this space to write your biography here, edit the `index.md` file. You can put a picture in, too. Rename your picture to `profile.png` and put it in the `assets/images/` folder.
-
-The social-icons footer can be used to link profiles from GitHub, OrcID and ReasearchGate aprart form the usual Twitter, LinkedIn and Facebook. You can add your user ID in the `_config.yml` file to link your accounts.
+I'm a PhD student in the [Institute for Computing Systems Architecture](https://web.inf.ed.ac.uk/icsa) at [The University of Edinburgh](https://www.ed.ac.uk/), supervised by [Prof. Mahesh K. Marina](https://homepages.inf.ed.ac.uk/mmarina/). My current research interests are in the fields of mobile networks, computer networks and operating systems. My research focuses on the design, implementation and evaluation of networked systems. In particular, I'm focused on the design of new core networks and RAN architectures and protocols with the final objective of providing a unified, flexible and agnostic wireless interface into the client-side.
