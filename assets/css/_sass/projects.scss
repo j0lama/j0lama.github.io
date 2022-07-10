@@ -16,10 +16,6 @@
   /* Minimum width of 200px and grow to fit available space */
   flex: 1 0 200px;
   border-radius: 15px;
-  background: $projectbox;
-  @media (prefers-color-scheme: dark) {
-    background: $projectbox-dark;
-  }
   height: 200px;
   width: 100%;
   overflow: hidden;
@@ -37,9 +33,6 @@
   display: flex;
   justify-content: center;
   color: $text-color ;
-  @media (prefers-color-scheme: dark) {
-    color: $text-color-dark;
-  }
 }
 
 .projectTile a span h2 {
@@ -60,10 +53,6 @@
   display: flex;
   padding: 1rem;
   color: $text-color;
-
-  @media (prefers-color-scheme: dark) {
-    color: $text-color-dark;
-  }
 }
 
 @include media-query($on-phone) {
