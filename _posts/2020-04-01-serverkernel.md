@@ -6,5 +6,4 @@ venue: "Proceedings of the Third ACM International Workshop on Edge Systems, Ana
 venue_short: "EdgeSys '20"
 year: "2020"
 link: "https://dl.acm.org/doi/10.1145/3378679.3394537"
-note: "Test"
 ---
