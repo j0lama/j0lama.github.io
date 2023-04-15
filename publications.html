@@ -7,7 +7,7 @@ title: Publications
 <div>
 	{% for post in site.posts %}
 	<h4><a href="{{ post.link }}">{{ post.title }}</a></h4>
-	<p>{{ post.authors }}, {{ post.venue }} (<em>{{ post.venue_short }}</em>), {{ post.year }}</p>
+	<p>{{ post.authors }}, {{ post.venue }} (<em>{{ post.venue_short }}</em>), {{ post.year }}. {{ post.note }}</p>
 	<br>
 	{% endfor %}
 </div>
